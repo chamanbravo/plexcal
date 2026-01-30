@@ -6,6 +6,7 @@ import {
 import { successResponse } from "../utils/successResponse";
 import { errorResponse } from "../utils/errorResponse";
 import { expandSchedule } from "../utils/generateEvents";
+import logger from "../logger";
 
 export const createClassSchedules = async (req: Request, res: Response) => {
   try {
@@ -20,11 +21,12 @@ export const createClassSchedules = async (req: Request, res: Response) => {
       }),
     );
   } catch (err: any) {
+    logger.error("error ", err);
     return res.status(400).json(
       errorResponse({
         title: "Server Error",
         message: "Something went wrong",
-        errors: err,
+        errors: [],
       }),
     );
   }
@@ -83,10 +85,11 @@ export const getClassSchedules = async (req: Request, res: Response) => {
       data: events,
     });
   } catch (err: any) {
+    logger.error("error ", err);
     return res.status(500).json({
       title: "Server Error",
       message: "Failed to fetch schedules",
-      errors: err,
+      errors: [],
     });
   }
 };
@@ -119,11 +122,12 @@ export const updateClassSchedule = async (req: Request, res: Response) => {
       }),
     );
   } catch (err: any) {
+    logger.error("error ", err);
     return res.status(500).json(
       errorResponse({
         title: "Server Error",
         message: "Failed to update schedule",
-        errors: [err],
+        errors: [],
       }),
     );
   }
@@ -151,11 +155,12 @@ export const deleteClassSchedule = async (req: Request, res: Response) => {
       }),
     );
   } catch (err: any) {
+    logger.error("error ", err);
     return res.status(500).json(
       errorResponse({
         title: "Server Error",
         message: "Failed to delete schedule",
-        errors: err,
+        errors: [],
       }),
     );
   }
