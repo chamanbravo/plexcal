@@ -1,5 +1,6 @@
 import { Plus } from "lucide-react";
 import Button from "../../components/Button";
+import ClassTypeTable from "./ClassTypeTable";
 
 export function ClassTypesSection({
   onAddClassType,
@@ -14,7 +15,7 @@ export function ClassTypesSection({
           Add Class Type
         </Button>
       </div>
-      <div className="rounded-md border p-4 text-gray-600">WIP</div>
+      <ClassTypeTable />
     </div>
   );
 }

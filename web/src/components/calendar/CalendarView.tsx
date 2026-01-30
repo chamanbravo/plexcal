@@ -2,14 +2,19 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import { type EventInput } from "@fullcalendar/core";
+import { type DatesSetArg, type EventInput } from "@fullcalendar/core";
 
 interface Props {
   events: EventInput[];
+  onChangeDateRange: (dateRange: Record<string, Date>) => void;
   onEventClick: (date: string) => void;
 }
 
-export default function CalendarView({ events, onEventClick }: Props) {
+export default function CalendarView({
+  events,
+  onChangeDateRange,
+  onEventClick,
+}: Props) {
   return (
     <FullCalendar
       plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
@@ -28,6 +33,13 @@ export default function CalendarView({ events, onEventClick }: Props) {
       events={events}
       dateClick={(info) => {
         console.log("Date clicked:", info.date);
+      }}
+      datesSet={(arg: DatesSetArg) => {
+        const { start, end } = arg;
+        onChangeDateRange({
+          startDate: start,
+          endDate: end,
+        });
       }}
       eventClick={(info) => {
         onEventClick(info.event.title);
