@@ -1,5 +1,13 @@
 import { z } from "zod";
 
+const recurrenceSchema = z.object({
+  type: z.enum(["daily", "weekly", "monthly", "custom"]),
+  interval: z.number().min(1).optional().default(1),
+  days: z.array(z.number()).optional(),
+  dates: z.array(z.number()).optional(),
+  times: z.array(z.string()).optional(),
+});
+
 export const createClassScheduleSchema = z.object({
   title: z.string().min(3, "Title is required").max(20, "Title is too long"),
   classType: z.string().min(1, "Class type is required"),
@@ -16,4 +24,5 @@ export const createClassScheduleSchema = z.object({
     error: (iss) =>
       iss.input === undefined ? "Start time is required" : "Invalid start time",
   }),
+  recurrence: recurrenceSchema,
 });

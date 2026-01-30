@@ -21,7 +21,7 @@ export const useCreateClass = () => {
   });
 };
 
-export const useGetClassSchedules = (
+export const useGetClassSchedulesEvents = (
   dateRange: Record<string, Date> | undefined,
 ) => {
   return useQuery({
@@ -39,6 +39,40 @@ export const useGetClassSchedules = (
         },
       });
       return response.data;
+    },
+  });
+};
+
+export const useGetClassSchedules = (
+  paginate: Record<string, number> = { page: 0, limit: 10 },
+) => {
+  return useQuery({
+    queryKey: ["class-schedules", paginate],
+    queryFn: async () => {
+      const response = await api.get("/class-schedules", {
+        params: {
+          page: paginate.skip,
+          limit: paginate.limit,
+        },
+      });
+      return response.data;
+    },
+  });
+};
+
+export const useDeleteClassSchedule = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (id: string) => {
+      const response = await api.delete(`/class-schedules/${id}`);
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["class-schedules"],
+        exact: false,
+      });
     },
   });
 };

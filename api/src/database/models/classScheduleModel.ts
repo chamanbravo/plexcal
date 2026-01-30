@@ -2,11 +2,10 @@ import mongoose, { Schema, Document } from "mongoose";
 
 export interface IRecurrence {
   type: "daily" | "weekly" | "monthly" | "custom";
-  interval?: number; // e.g., every 2 days/weeks/months
+  interval?: number; // e.g., every 2 weeks
   days?: number[]; // for weekly recurrence (0=Sun … 6=Sat)
   dates?: number[]; // for monthly recurrence (1–31)
   times: string[]; // multiple times per day ["09:00", "14:00"]
-  customRule?: any; // flexible for advanced/custom patterns
 }
 
 export interface IClassSchedule extends Document {
@@ -31,7 +30,6 @@ const recurrenceSchema = new Schema<IRecurrence>(
     days: [{ type: Number }], // weekly
     dates: [{ type: Number }], // monthly
     times: { type: [String], required: true }, // multiple slots per day
-    customRule: { type: Schema.Types.Mixed, default: null }, // for complex rules
   },
   { _id: false },
 );

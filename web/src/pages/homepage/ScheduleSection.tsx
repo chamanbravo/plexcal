@@ -1,8 +1,9 @@
 import { Header } from "./Header";
 import CalendarView from "../../components/calendar/CalendarView";
 import CalendarViewTabs from "../../components/tabs/CalendarViewTabs";
-import { useGetClassSchedules } from "../../hooks/queries/useCreateClass";
+import { useGetClassSchedulesEvents } from "../../hooks/queries/useCreateClass";
 import { useState } from "react";
+import ClassScheduleTable from "./ClassScheduleTable";
 
 type ViewType = "calendar" | "list";
 
@@ -14,7 +15,7 @@ export function ScheduleSection({
   setCalendarView: (view: ViewType) => void;
 }) {
   const [dateRange, setDateRange] = useState<Record<string, Date>>();
-  const { data, isError } = useGetClassSchedules(dateRange);
+  const { data, isError } = useGetClassSchedulesEvents(dateRange);
 
   if (isError) {
     return <div className="text-red-500">Error loading class schedules.</div>;
@@ -41,7 +42,7 @@ export function ScheduleSection({
           />
         </div>
       ) : (
-        <div className="rounded-md border p-4 text-gray-600">WIP</div>
+        <ClassScheduleTable />
       )}
     </div>
   );
