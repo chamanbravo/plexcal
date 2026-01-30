@@ -1,31 +1,49 @@
 import mongoose, { Schema, Document } from "mongoose";
 
+export interface IRecurrence {
+  type: "daily" | "weekly" | "monthly" | "custom";
+  interval?: number; // e.g., every 2 days/weeks/months
+  days?: number[]; // for weekly recurrence (0=Sun … 6=Sat)
+  dates?: number[]; // for monthly recurrence (1–31)
+  times: string[]; // multiple times per day ["09:00", "14:00"]
+  customRule?: any; // flexible for advanced/custom patterns
+}
+
 export interface IClassSchedule extends Document {
   title: string;
   description?: string;
-  startTime: Date;
-  endTime: Date;
+  startDate: Date;
+  endDate?: Date;
   isRecurring: boolean;
-  recurrence?: {
-    type: "daily" | "weekly" | "monthly" | "custom";
-    days?: number[]; // For weekly (0=Sun,6=Sat)
-    dates?: number[]; // For monthly
-    interval?: number; // e.g., every 2 weeks
-    times?: string[]; // ["09:00", "14:00"]
-    customRule?: any; // Flexible for advanced rules
-  };
+  recurrence?: IRecurrence;
   createdAt: Date;
   updatedAt: Date;
 }
+
+const recurrenceSchema = new Schema<IRecurrence>(
+  {
+    type: {
+      type: String,
+      enum: ["daily", "weekly", "monthly", "custom"],
+      required: true,
+    },
+    interval: { type: Number, default: 1 },
+    days: [{ type: Number }], // weekly
+    dates: [{ type: Number }], // monthly
+    times: { type: [String], required: true }, // multiple slots per day
+    customRule: { type: Schema.Types.Mixed, default: null }, // for complex rules
+  },
+  { _id: false },
+);
 
 const classScheduleSchema = new Schema<IClassSchedule>(
   {
     title: { type: String, required: true },
     description: { type: String },
-    startTime: { type: Date, required: true },
-    endTime: { type: Date, required: true },
+    startDate: { type: Date, required: true },
+    endDate: { type: Date },
     isRecurring: { type: Boolean, default: false },
-    recurrence: { type: Object },
+    recurrence: { type: recurrenceSchema, required: false },
   },
   { timestamps: true },
 );
