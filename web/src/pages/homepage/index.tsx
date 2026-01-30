@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import ClassViewTabs from "../../components/tabs/ClassViewTabs";
 import { ScheduleSection } from "./ScheduleSection";
 import { ClassTypesSection } from "./ClassTypeSection";
@@ -8,21 +8,6 @@ export default function CalendarPage() {
   const [calendarView, setCalendarView] =
     useState<CalendarViewType>("calendar");
   const [classView, setClassView] = useState<ClassViewType>("schedule");
-
-  const events = useMemo(
-    () => [
-      {
-        id: "1",
-        title: "Demo Class",
-        start: new Date().toISOString(),
-      },
-    ],
-    [],
-  );
-
-  const handleScheduleClass = () => {
-    alert("Schedule Class Modal");
-  };
 
   const handleAddClassType = () => {
     alert("Add Class Type Modal");
@@ -36,8 +21,6 @@ export default function CalendarPage() {
         <ScheduleSection
           calendarView={calendarView}
           setCalendarView={setCalendarView}
-          events={events}
-          onScheduleClass={handleScheduleClass}
         />
       ) : (
         <ClassTypesSection onAddClassType={handleAddClassType} />
