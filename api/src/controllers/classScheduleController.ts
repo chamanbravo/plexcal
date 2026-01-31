@@ -7,12 +7,44 @@ import { successResponse } from "../utils/successResponse";
 import { errorResponse } from "../utils/errorResponse";
 import { expandSchedule } from "../utils/generateEvents";
 import logger from "../logger";
+import { addDays } from "date-fns";
+import { expandScheduleWithEnd, hasCollision } from "../utils/validateTime";
 
 export const createClassSchedules = async (req: Request, res: Response) => {
   try {
     const data: Partial<IClassSchedule> = req.body;
+
+    const now = new Date();
+    const rangeStart = now;
+    const rangeEnd = addDays(now, 90);
+
+    const newOccurrences = expandScheduleWithEnd(data, rangeStart, rangeEnd);
+
+    const existingSchedules = await ClassSchedule.find({
+      startDate: { $lte: rangeEnd },
+    });
+
+    const existingOccurrences = existingSchedules.flatMap((schedule) =>
+      expandScheduleWithEnd(schedule, rangeStart, rangeEnd),
+    );
+
+    for (const newOcc of newOccurrences) {
+      for (const existingOcc of existingOccurrences) {
+        if (hasCollision(newOcc, existingOcc)) {
+          return res.status(409).json(
+            errorResponse({
+              title: "Time Collision",
+              message: "This class overlaps with an existing scheduled class",
+              errors: [],
+            }),
+          );
+        }
+      }
+    }
+
     const newClassSchedule = new ClassSchedule(data);
     await newClassSchedule.save();
+
     return res.status(201).json(
       successResponse({
         title: "Class schedule created",

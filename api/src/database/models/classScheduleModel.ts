@@ -10,7 +10,8 @@ export interface IRecurrence {
 
 export interface IClassSchedule extends Document {
   title: string;
-  description?: string;
+  classType: string;
+  instructor: string;
   startDate: Date;
   endDate?: Date;
   isRecurring: boolean;
@@ -37,7 +38,8 @@ const recurrenceSchema = new Schema<IRecurrence>(
 const classScheduleSchema = new Schema<IClassSchedule>(
   {
     title: { type: String, required: true },
-    description: { type: String },
+    classType: { type: String, required: true },
+    instructor: { type: String, required: true },
     startDate: { type: Date, required: true },
     endDate: { type: Date },
     isRecurring: { type: Boolean, default: false },

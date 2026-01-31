@@ -6,6 +6,7 @@ import Modal from "../../components/Modal";
 import { useCreateClassSchedule } from "../../hooks/queries";
 import { isValidTime24 } from "../../utils";
 import Button from "../../components/Button";
+import { AxiosError } from "axios";
 
 const recurrenceSchema = z.object({
   type: z.enum(["daily", "weekly", "monthly", "custom"]),
@@ -147,7 +148,10 @@ export default function ScheduleClassModal({ open, onClose }: Props) {
       reset();
       onClose();
     } catch (err) {
-      console.error(err);
+      if (err instanceof AxiosError) {
+        const apiError = err?.response?.data;
+        alert(apiError.message);
+      }
     }
   };
 

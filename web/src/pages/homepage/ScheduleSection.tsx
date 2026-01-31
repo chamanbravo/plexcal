@@ -36,9 +36,6 @@ export function ScheduleSection({
           <CalendarView
             events={data?.data || []}
             onChangeDateRange={setDateRange}
-            onEventClick={(title: string) => {
-              console.log(title);
-            }}
           />
         </div>
       ) : (

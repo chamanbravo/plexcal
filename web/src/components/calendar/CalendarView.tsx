@@ -7,14 +7,9 @@ import { type DatesSetArg, type EventInput } from "@fullcalendar/core";
 interface Props {
   events: EventInput[];
   onChangeDateRange: (dateRange: Record<string, Date>) => void;
-  onEventClick: (date: string) => void;
 }
 
-export default function CalendarView({
-  events,
-  onChangeDateRange,
-  onEventClick,
-}: Props) {
+export default function CalendarView({ events, onChangeDateRange }: Props) {
   return (
     <FullCalendar
       plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
@@ -32,18 +27,12 @@ export default function CalendarView({
         day: "Day",
       }}
       events={events}
-      dateClick={(info) => {
-        console.log("Date clicked:", info.date);
-      }}
       datesSet={(arg: DatesSetArg) => {
         const { start, end } = arg;
         onChangeDateRange({
           startDate: start,
           endDate: end,
         });
-      }}
-      eventClick={(info) => {
-        onEventClick(info.event.title);
       }}
       height="100%"
       allDaySlot={false}
