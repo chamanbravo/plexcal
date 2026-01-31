@@ -80,12 +80,7 @@ export default function ClassScheduleTable() {
 
   return (
     <div>
-      <Table
-        columns={columns}
-        data={data?.data || []}
-        keyField="id"
-        onRowClick={(row) => console.log(row)}
-      />
+      <Table columns={columns} data={data?.data || []} keyField="id" />
       <Pagination
         page={page}
         totalPages={data?.pagination?.totalPages}

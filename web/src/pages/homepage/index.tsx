@@ -9,10 +9,6 @@ export default function CalendarPage() {
     useState<CalendarViewType>("calendar");
   const [classView, setClassView] = useState<ClassViewType>("schedule");
 
-  const handleAddClassType = () => {
-    alert("Add Class Type Modal");
-  };
-
   return (
     <div className="flex flex-col gap-6">
       <ClassViewTabs activeView={classView} onChange={setClassView} />
@@ -23,7 +19,7 @@ export default function CalendarPage() {
           setCalendarView={setCalendarView}
         />
       ) : (
-        <ClassTypesSection onAddClassType={handleAddClassType} />
+        <ClassTypesSection />
       )}
     </div>
   );

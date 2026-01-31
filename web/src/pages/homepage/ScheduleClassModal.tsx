@@ -3,7 +3,7 @@ import { format } from "date-fns";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Modal from "../../components/Modal";
-import { useCreateClass } from "../../hooks/queries/useCreateClass";
+import { useCreateClassSchedule } from "../../hooks/queries/useCreateClass";
 
 const recurrenceSchema = z.object({
   type: z.enum(["daily", "weekly", "monthly", "custom"]),
@@ -97,7 +97,8 @@ interface Props {
 }
 
 export default function ScheduleClassModal({ open, onClose }: Props) {
-  const { mutateAsync: createClass, isPending } = useCreateClass();
+  const { mutateAsync: createClassSchedule, isPending } =
+    useCreateClassSchedule();
 
   const {
     register,
@@ -128,7 +129,7 @@ export default function ScheduleClassModal({ open, onClose }: Props) {
 
   const onSubmit = async (data: FormValues) => {
     try {
-      await createClass(data);
+      await createClassSchedule(data);
       reset();
       onClose();
     } catch (err) {
