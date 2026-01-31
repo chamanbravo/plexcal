@@ -4,6 +4,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Modal from "../../components/Modal";
 import { useCreateClassSchedule } from "../../hooks/queries/useCreateClass";
+import { isValidTime24 } from "../../utils";
 
 const recurrenceSchema = z.object({
   type: z.enum(["daily", "weekly", "monthly", "custom"]),
@@ -76,10 +77,22 @@ const formSchema = z
         });
       }
 
-      if (
-        data.isRecurring &&
-        (!data.recurrence.times || data.recurrence.times.length === 0)
-      ) {
+      if (data.recurrence.times) {
+        const invalidTimes = data.recurrence.times.filter(
+          (t) => !isValidTime24(t),
+        );
+
+        if (invalidTimes.length > 0) {
+          ctx.addIssue({
+            path: ["recurrence", "times"],
+            message:
+              "Invalid time format. Use HH:MM (1–24), e.g. 9:00, 14:00, 24:00",
+            code: z.ZodIssueCode.custom,
+          });
+        }
+      }
+
+      if (!data.recurrence.times || data.recurrence.times.length === 0) {
         ctx.addIssue({
           path: ["recurrence", "times"],
           message: "Add at least one time slot",
