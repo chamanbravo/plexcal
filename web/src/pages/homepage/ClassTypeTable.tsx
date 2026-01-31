@@ -1,10 +1,7 @@
 import { useState } from "react";
 import { Pagination } from "../../components/table/Pagination";
 import Table, { type Column } from "../../components/table/Table";
-import {
-  useDeleteClassType,
-  useGetClassTypes,
-} from "../../hooks/queries/useCreateClass";
+import { useDeleteClassType, useGetClassTypes } from "../../hooks/queries";
 import { Trash2Icon } from "lucide-react";
 
 interface ClassType {
@@ -38,7 +35,7 @@ export default function ClassTypeTable() {
       render: (row) => (
         <div className="flex gap-2">
           <button
-            className="bg-red-500 text-white px-2 py-1 rounded hover:cursor-pointer"
+            className="px-2 py-1 rounded hover:cursor-pointer text-red-400"
             onClick={() => handleDelete(row._id)}
           >
             <Trash2Icon size={18} />

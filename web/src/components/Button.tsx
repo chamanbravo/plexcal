@@ -17,7 +17,7 @@ export default function Button({
   ...props
 }: ButtonProps) {
   const baseClasses =
-    "inline-flex items-center justify-center gap-2 font-medium rounded focus:outline-none transition hover:cursor-pointer";
+    "inline-flex items-center justify-center gap-2 font-medium rounded-md focus:outline-none transition hover:cursor-pointer whitespace-nowrap";
 
   const sizeClasses = {
     sm: "px-2 py-1 text-sm",
@@ -26,7 +26,7 @@ export default function Button({
   };
 
   const variantClasses = {
-    primary: "bg-black text-white hover:bg-gray-800",
+    primary: "bg-[#3788D8] text-white hover:bg-blue-400",
     secondary: "bg-gray-200 text-gray-800 hover:bg-gray-300",
     outline: "border border-gray-300 text-gray-700 hover:bg-gray-100",
   };

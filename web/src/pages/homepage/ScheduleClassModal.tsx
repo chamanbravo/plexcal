@@ -3,8 +3,9 @@ import { format } from "date-fns";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Modal from "../../components/Modal";
-import { useCreateClassSchedule } from "../../hooks/queries/useCreateClass";
+import { useCreateClassSchedule } from "../../hooks/queries";
 import { isValidTime24 } from "../../utils";
+import Button from "../../components/Button";
 
 const recurrenceSchema = z.object({
   type: z.enum(["daily", "weekly", "monthly", "custom"]),
@@ -154,11 +155,11 @@ export default function ScheduleClassModal({ open, onClose }: Props) {
     <Modal open={open} title="Create Class" onClose={onClose}>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div className="flex flex-col md:flex-row gap-4">
-          <div className="w-full">
-            <label>Class Title</label>
+          <div className="w-full flex flex-col gap-1">
+            <label className="text-sm font-semibold">Class Title</label>
             <input
               placeholder="Class title"
-              className="border rounded px-3 py-2 w-full"
+              className="border border-gray-200 rounded-md px-2 py-1.5 w-full"
               {...register("title")}
             />
             {errors.title && (
@@ -166,10 +167,10 @@ export default function ScheduleClassModal({ open, onClose }: Props) {
             )}
           </div>
 
-          <div className="w-full">
-            <label>Class Type</label>
+          <div className="w-full flex flex-col gap-1">
+            <label className="text-sm font-semibold">Class Type</label>
             <select
-              className="border rounded px-3 py-2 w-full"
+              className="border border-gray-200 rounded-md px-2 py-1.5 w-full"
               {...register("classType")}
             >
               <option value="">Select class type</option>
@@ -183,12 +184,12 @@ export default function ScheduleClassModal({ open, onClose }: Props) {
         </div>
 
         <div className="flex flex-col md:flex-row gap-4">
-          <div className="w-full">
-            <label>Duration (minutes)</label>
+          <div className="w-full flex flex-col gap-1">
+            <label className="text-sm font-semibold">Duration (minutes)</label>
             <input
               type="number"
               min={1}
-              className="border rounded px-3 py-2 w-full"
+              className="border border-gray-200 rounded-md px-2 py-1.5 w-full"
               {...register("duration")}
             />
             {errors.duration && (
@@ -197,10 +198,10 @@ export default function ScheduleClassModal({ open, onClose }: Props) {
           </div>
 
           <div className="w-full">
-            <label>Instructor</label>
+            <label className="text-sm font-semibold">Instructor</label>
             <input
               placeholder="Instructor"
-              className="border rounded px-3 py-2 w-full"
+              className="border border-gray-200 rounded-md px-2 py-1.5 w-full"
               {...register("instructor")}
             />
             {errors.instructor && (
@@ -211,11 +212,11 @@ export default function ScheduleClassModal({ open, onClose }: Props) {
           </div>
         </div>
 
-        <div>
-          <label>Start Time</label>
+        <div className="w-full flex flex-col gap-1">
+          <label className="text-sm font-semibold">Start Time</label>
           <input
             type="datetime-local"
-            className="border rounded px-3 py-2 w-full"
+            className="border border-gray-200 rounded-md px-2 py-1.5 w-full"
             {...register("startDate")}
           />
           {errors.startDate && (
@@ -223,14 +224,14 @@ export default function ScheduleClassModal({ open, onClose }: Props) {
           )}
         </div>
 
-        <label className="flex items-center gap-2">
+        <label className="flex items-center gap-2 text-sm font-semibold">
           <input type="checkbox" {...register("isRecurring")} />
           Recurring class
         </label>
 
         {formValues.isRecurring && (
           <div className="space-y-2">
-            <label>Recurrence Type</label>
+            <label className="text-sm font-semibold">Recurrence Type</label>
             <select
               className="border rounded px-3 py-2 w-full"
               {...register("recurrence.type")}
@@ -242,24 +243,33 @@ export default function ScheduleClassModal({ open, onClose }: Props) {
             </select>
 
             {formValues.recurrence?.type === "weekly" && (
-              <div>
-                <label>Select weekdays:</label>
-                {[0, 1, 2, 3, 4, 5, 6].map((day) => (
-                  <label key={day}>
-                    <input
-                      type="checkbox"
-                      value={day}
-                      {...register(`recurrence.days`)}
-                    />
-                    {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][day]}
-                  </label>
-                ))}
+              <div className="flex flex-col">
+                <label className="text-sm font-semibold">Select Weekdays</label>
+                <div className="flex flex-wrap gap-3">
+                  {[0, 1, 2, 3, 4, 5, 6].map((day) => (
+                    <label key={day} className="flex items-center gap-1">
+                      <input
+                        type="checkbox"
+                        value={day}
+                        {...register(`recurrence.days`)}
+                      />
+                      {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"][day]}
+                    </label>
+                  ))}
+                </div>
               </div>
             )}
 
             {formValues.recurrence?.type === "monthly" && (
-              <div className="space-y-1">
-                <label>Select dates of month</label>
+              <div className="flex flex-col">
+                <div className="flex flex-row gap-1 items-center">
+                  <label className="text-sm font-semibold">
+                    Select dates of month
+                  </label>
+                  <span className="text-xs text-gray-500">
+                    Select multiple holding ctrl
+                  </span>
+                </div>
                 <select
                   multiple
                   className="border rounded px-3 py-2 w-full h-40"
@@ -283,7 +293,7 @@ export default function ScheduleClassModal({ open, onClose }: Props) {
             {formValues.recurrence?.type === "custom" && (
               <div className="space-y-3">
                 <div>
-                  <label>Repeat every</label>
+                  <label className="text-sm font-semibold">Repeat every</label>
                   <input
                     type="number"
                     min={1}
@@ -294,7 +304,9 @@ export default function ScheduleClassModal({ open, onClose }: Props) {
                 </div>
 
                 <div>
-                  <label>Select weekdays</label>
+                  <label className="text-sm font-semibold">
+                    Select Weekdays
+                  </label>
                   <div className="flex flex-wrap gap-3">
                     {[0, 1, 2, 3, 4, 5, 6].map((day) => (
                       <label key={day} className="flex items-center gap-1">
@@ -316,7 +328,7 @@ export default function ScheduleClassModal({ open, onClose }: Props) {
               </div>
             )}
 
-            <label>Times (HH:mm)</label>
+            <label className="text-sm font-semibold">Times (HH:mm)</label>
             <input
               placeholder="09:00,14:00"
               className="border rounded px-3 py-2 w-full"
@@ -330,16 +342,13 @@ export default function ScheduleClassModal({ open, onClose }: Props) {
           </div>
         )}
 
-        <div className="flex justify-end gap-2 pt-4">
-          <button type="button" onClick={onClose}>
+        <div className="flex justify-end gap-2">
+          <Button size="md" variant="outline" onClick={onClose}>
             Cancel
-          </button>
-          <button
-            type="submit"
-            className="bg-black text-white px-4 py-2 rounded"
-          >
+          </Button>
+          <Button size="md" type="submit">
             {isPending ? "Creating..." : "Create"}
-          </button>
+          </Button>
         </div>
       </form>
     </Modal>

@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Modal from "../../components/Modal";
-import { useCreateClassType } from "../../hooks/queries/useCreateClass";
+import { useCreateClassType } from "../../hooks/queries";
 
 const formSchema = z.object({
   name: z.string().min(3, "Title is required").max(10, "Name too long"),

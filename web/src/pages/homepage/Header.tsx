@@ -16,7 +16,7 @@ export function Header({
 
   return (
     <>
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center flex-wrap">
         <div>
           <h1 className="text-2xl font-bold">{title}</h1>
           <p className="text-gray-600">{subtitle}</p>

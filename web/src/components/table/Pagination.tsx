@@ -16,19 +16,21 @@ export function Pagination({
       <button
         disabled={page === 1}
         onClick={() => onPageChange(page - 1)}
-        className="px-3 py-1 border rounded disabled:opacity-50 hover:cursor-pointer"
+        className="px-3 py-1 border border-gray-400  rounded disabled:opacity-50 hover:cursor-pointer"
       >
         <ChevronLeft size={16} />
       </button>
 
-      <span className="text-sm">
-        Page {page} of {totalPages}
-      </span>
+      {totalPages > 0 ? (
+        <span className="text-sm font-medium text-gray-600">
+          Page {page} of {totalPages}
+        </span>
+      ) : null}
 
       <button
         disabled={page >= totalPages}
         onClick={() => onPageChange(page + 1)}
-        className="px-3 py-1 border rounded disabled:opacity-50 hover:cursor-pointer"
+        className="px-3 py-1 border border-gray-400 rounded disabled:opacity-50 hover:cursor-pointer"
       >
         <ChevronRight size={16} />
       </button>

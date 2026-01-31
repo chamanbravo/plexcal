@@ -22,6 +22,7 @@ export default function CalendarView({
       initialDate={new Date()}
       headerToolbar={{
         left: "prev,next today",
+        center: "title",
         right: "timeGridDay,timeGridWeek,dayGridMonth",
       }}
       buttonText={{

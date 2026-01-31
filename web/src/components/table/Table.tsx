@@ -26,8 +26,8 @@ export default function Table<T>({
   emptyMessage = "No data found",
 }: TableProps<T>) {
   return (
-    <div className="w-full overflow-x-auto">
-      <table className="w-full border-collapse">
+    <div className="w-full overflow-x-auto  rounded-md border-gray-200 border">
+      <table className="w-full border-collapse overflow-hidden ">
         <thead>
           <tr className="border-b border-gray-200 bg-gray-50">
             {columns.map((col) => (
@@ -35,7 +35,7 @@ export default function Table<T>({
                 key={String(col.key)}
                 style={{ width: col.width }}
                 className={clsx(
-                  "px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase",
+                  "px-4 py-3 text-left text-[0.85rem] font-semibold text-gray-800 capitalize",
                   col.className,
                 )}
               >
@@ -68,7 +68,7 @@ export default function Table<T>({
                 key={rowKey}
                 onClick={() => onRowClick?.(row)}
                 className={clsx(
-                  "border-b border-gray-100",
+                  "border-b border-gray-200",
                   onRowClick && "cursor-pointer hover:bg-gray-50",
                 )}
               >

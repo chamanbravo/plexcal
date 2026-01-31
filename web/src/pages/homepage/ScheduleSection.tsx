@@ -1,7 +1,7 @@
 import { Header } from "./Header";
 import CalendarView from "../../components/calendar/CalendarView";
 import CalendarViewTabs from "../../components/tabs/CalendarViewTabs";
-import { useGetClassSchedulesEvents } from "../../hooks/queries/useCreateClass";
+import { useGetClassSchedulesEvents } from "../../hooks/queries";
 import { useState } from "react";
 import ClassScheduleTable from "./ClassScheduleTable";
 

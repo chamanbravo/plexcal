@@ -1,9 +1,9 @@
-import { Trash2Icon } from "lucide-react";
+import { Check, Trash2Icon, X } from "lucide-react";
 import Table, { type Column } from "../../components/table/Table";
 import {
   useDeleteClassSchedule,
   useGetClassSchedules,
-} from "../../hooks/queries/useCreateClass";
+} from "../../hooks/queries";
 import { Pagination } from "../../components/table/Pagination";
 import { useState } from "react";
 
@@ -31,7 +31,19 @@ export default function ClassScheduleTable() {
     {
       key: "isRecurring",
       title: "Is Recurring",
-      render: (row) => <span>{row.isRecurring ? "✅" : "❌"}</span>,
+      render: (row) => (
+        <span>
+          {row.isRecurring ? (
+            <span className="text-green-600">
+              <Check size={16} />
+            </span>
+          ) : (
+            <span className="text-red-600">
+              <X size={16} />
+            </span>
+          )}
+        </span>
+      ),
     },
     {
       key: "recurrenceType",
@@ -50,7 +62,7 @@ export default function ClassScheduleTable() {
       render: (row) => (
         <div className="flex gap-2">
           <button
-            className="bg-red-500 text-white px-2 py-1 rounded hover:cursor-pointer"
+            className="px-2 py-1 rounded hover:cursor-pointer text-red-400"
             onClick={() => handleDelete(row.id)}
           >
             <Trash2Icon size={18} />

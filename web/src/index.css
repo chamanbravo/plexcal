@@ -1,7 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
 @import "tailwindcss";
 
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
   line-height: 1.5;
   font-weight: 400;
   font-synthesis: none;
@@ -9,4 +11,62 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   box-sizing: border-box;
+}
+
+.fc .fc-toolbar {
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.fc .fc-toolbar.fc-header-toolbar {
+  margin-bottom: 1rem;
+}
+
+.fc .fc-toolbar-title {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.fc .fc-button {
+  background: transparent;
+  border: 1px solid #e5e7eb;
+  color: #111827;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  box-shadow: none;
+}
+
+.fc .fc-button:hover {
+  background: #f3f4f6;
+  color: #000;
+  border: 1px solid #e5e7eb;
+}
+
+.fc .fc-button:active {
+  background: #f3f4f6 !important;
+  color: #000 !important;
+  border: 1px solid #e5e7eb !important;
+}
+
+.fc .fc-today-button {
+  background: transparent !important;
+  color: #000 !important;
+  border: 1px solid #e5e7eb !important;
+}
+
+.fc .fc-today-button:hover {
+  background: #f3f4f6;
+  color: #000;
+  border: 1px solid #e5e7eb;
+}
+
+.fc .fc-button-active {
+  background: #ddd !important;
+  border: 1px solid #e5e7eb;
+  border-color: #e5e7eb !important;
+  color: #000 !important;
+}
+
+.fc .fc-button:focus {
+  box-shadow: none !important;
 }
