@@ -12,7 +12,10 @@ export const useCreateClass = () => {
     },
 
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["classes"] });
+      queryClient.invalidateQueries({
+        queryKey: ["class-schedules"],
+        exact: false,
+      });
     },
 
     onError: (error) => {
@@ -47,11 +50,11 @@ export const useGetClassSchedules = (
   paginate: Record<string, number> = { page: 0, limit: 10 },
 ) => {
   return useQuery({
-    queryKey: ["class-schedules", paginate],
+    queryKey: ["class-schedules", paginate.page, paginate.limit],
     queryFn: async () => {
       const response = await api.get("/class-schedules", {
         params: {
-          page: paginate.skip,
+          page: paginate.page,
           limit: paginate.limit,
         },
       });

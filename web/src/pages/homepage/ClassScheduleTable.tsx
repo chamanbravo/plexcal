@@ -4,6 +4,8 @@ import {
   useDeleteClassSchedule,
   useGetClassSchedules,
 } from "../../hooks/queries/useCreateClass";
+import { Pagination } from "../../components/table/Pagination";
+import { useState } from "react";
 
 interface ClassSchedule {
   id: string;
@@ -13,9 +15,11 @@ interface ClassSchedule {
 }
 
 export default function ClassScheduleTable() {
+  const [page, setPage] = useState(1);
+  const limit = 10;
   const { data, isLoading, isError } = useGetClassSchedules({
-    page: 0,
-    limit: 10,
+    page,
+    limit,
   });
   const { mutateAsync: deleteClass } = useDeleteClassSchedule();
 
@@ -75,11 +79,18 @@ export default function ClassScheduleTable() {
   }
 
   return (
-    <Table
-      columns={columns}
-      data={data?.data || []}
-      keyField="id"
-      onRowClick={(row) => console.log(row)}
-    />
+    <div>
+      <Table
+        columns={columns}
+        data={data?.data || []}
+        keyField="id"
+        onRowClick={(row) => console.log(row)}
+      />
+      <Pagination
+        page={page}
+        totalPages={data?.pagination?.totalPages}
+        onPageChange={setPage}
+      />
+    </div>
   );
 }
